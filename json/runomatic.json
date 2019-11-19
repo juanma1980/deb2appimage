@@ -1,0 +1,37 @@
+{
+		"buildinfo": [
+				{
+						"prerun": [
+							null
+						],
+						"name":"runomatic",
+						"version":"linux",
+						"deps": "runomatic,python3-appconfig, python3-app2menu, python3-qanimatedstatusbar, python3-pyqt5, python3-passlib, ratpoison, xdotool, xloadimage, suckless-tools,python3-passlib,python3-psutil,python3-xdg,python3-bs4",
+						"repoarch":"amd64",
+						"distrorepo": "lliurexBuilder",
+						"repoversion": "bionic",
+						"binarypath":"/usr/bin/runomatic",
+						"iconpath":"/usr/share/icons/hicolor/256x256/apps/runomatic.png",
+						"usewrapper":"true",
+						"postrun": [
+							null
+						]
+					}
+		],
+		"apprunconf":[
+				{
+						"setpath":"true",
+						"setlibpath":"true",
+						"setpythonpath":"true",
+						"setpythonhome":"false",
+						"setpythondontwritebytecode":"true",
+						"setxdgdatadirs":"false",
+						"setperllib":"false",
+						"setgsettingsschemadir":"false",
+						"setqtpluginpath":"false",
+						"exec":"/usr/bin/runomatic.wrapper"
+				}
+		]
+}
+
+
