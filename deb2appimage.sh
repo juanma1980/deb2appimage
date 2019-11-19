@@ -10,7 +10,7 @@ function d2aexit() {
     case $1 in
         # normal exit; remove "$HOME"/.cache/deb2appimage before exiting
         0)
-            rm -rf "$HOME"/.cache/deb2appimage/*
+#            rm -rf "$HOME"/.cache/deb2appimage/*
             exit 0
             ;;
         # missing dependencies
@@ -88,7 +88,7 @@ function d2aexit() {
                 fi
                 echo "Exit code 6"
             fi
-            rm -rf "$HOME"/.cache/deb2appimage/*
+#            rm -rf "$HOME"/.cache/deb2appimage/*
             exit 6
             ;;
     esac
@@ -118,6 +118,11 @@ function getlatestdeb() {
     DEB_DISTRO="$2"
     DEB_RELEASE="$3"
     DEB_ARCH="$4"
+	cd /tmp
+	apt-get download $DEB_NAME
+	mv /tmp/$DEB_NAME*.deb "$HOME"/.cache/deb2appimage/debs/"$DEB_NAME".deb 
+	cd -
+	return 0
     case $DEB_DISTRO in
         Debian|debian)
             DEB_DISTRO_URL="debian.org"
@@ -245,6 +250,7 @@ EOL
 # function that downloads AppRun and creates AppRun.conf
 function prepareapprun() {
 curl -sL "https://raw.githubusercontent.com/simoniz0r/deb2appimage/master/resources/AppRun" -o "$HOME"/.cache/deb2appimage/AppDir/AppRun || d2aexit 3 "AppRun script"
+sed -i 's/pyshared/pyshared\/:\"$RUNNING_DIR"\/usr\/lib\/python3\/dist-packages/g' "$HOME"/.cache/deb2appimage/AppDir/AppRun
 chmod a+x "$HOME"/.cache/deb2appimage/AppDir/AppRun
 APPRUN_SET_PATH="$(jq -r '.apprunconf[0].setpath' "$HOME"/.cache/deb2appimage/build.json | tr '[:lower:]' '[:upper:]')"
 APPRUN_SET_LIBPATH="$(jq -r '.apprunconf[0].setlibpath' "$HOME"/.cache/deb2appimage/build.json | tr '[:lower:]' '[:upper:]')"
@@ -287,9 +293,9 @@ function buildappimage() {
     curl -sL "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage" -o "$HOME"/.cache/deb2appimage/appimagetool || d2aexit 3 "appimagetool"
     chmod +x "$HOME"/.cache/deb2appimage/appimagetool
     if [[ "$D2A_QUIET" = "TRUE" ]]; then
-        ARCH="$(uname -m)" "$HOME"/.cache/deb2appimage/appimagetool "$@" "$HOME"/.cache/deb2appimage/AppDir "$D2A_OUTPUT"/"$APP_NAME"-"$APP_VERSION"-"$(uname -m)".AppImage > /dev/null 2>&1 || d2aexit 6 "$APP_NAME"
+        ARCH="$(uname -m)" "$HOME"/.cache/deb2appimage/appimagetool -n "$@" "$HOME"/.cache/deb2appimage/AppDir "$D2A_OUTPUT"/"$APP_NAME"-"$APP_VERSION"-"$(uname -m)".AppImage > /dev/null 2>&1 || d2aexit 6 "$APP_NAME"
     else
-        ARCH="$(uname -m)" "$HOME"/.cache/deb2appimage/appimagetool "$@" "$HOME"/.cache/deb2appimage/AppDir "$D2A_OUTPUT"/"$APP_NAME"-"$APP_VERSION"-"$(uname -m)".AppImage || d2aexit 6 "$APP_NAME"
+        ARCH="$(uname -m)" "$HOME"/.cache/deb2appimage/appimagetool -n "$@" "$HOME"/.cache/deb2appimage/AppDir "$D2A_OUTPUT"/"$APP_NAME"-"$APP_VERSION"-"$(uname -m)".AppImage || d2aexit 6 "$APP_NAME"
     fi
 }
 
