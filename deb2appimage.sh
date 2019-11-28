@@ -10,7 +10,7 @@ function d2aexit() {
     case $1 in
         # normal exit; remove "$HOME"/.cache/deb2appimage before exiting
         0)
-#            rm -rf "$HOME"/.cache/deb2appimage/*
+            rm -rf "$HOME"/.cache/deb2appimage/*
             exit 0
             ;;
         # missing dependencies
@@ -88,7 +88,7 @@ function d2aexit() {
                 fi
                 echo "Exit code 6"
             fi
-#            rm -rf "$HOME"/.cache/deb2appimage/*
+            rm -rf "$HOME"/.cache/deb2appimage/*
             exit 6
             ;;
     esac
