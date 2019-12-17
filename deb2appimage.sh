@@ -250,7 +250,7 @@ EOL
 # function that downloads AppRun and creates AppRun.conf
 function prepareapprun() {
 curl -sL "https://raw.githubusercontent.com/simoniz0r/deb2appimage/master/resources/AppRun" -o "$HOME"/.cache/deb2appimage/AppDir/AppRun || d2aexit 3 "AppRun script"
-sed -i 's/pyshared/pyshared\/:\"$RUNNING_DIR"\/usr\/lib\/python3\/dist-packages/g' "$HOME"/.cache/deb2appimage/AppDir/AppRun
+#sed -i 's/pyshared/pyshared\/:\"$RUNNING_DIR"\/usr\/lib\/python3\/dist-packages/g' "$HOME"/.cache/deb2appimage/AppDir/AppRun
 chmod a+x "$HOME"/.cache/deb2appimage/AppDir/AppRun
 APPRUN_SET_PATH="$(jq -r '.apprunconf[0].setpath' "$HOME"/.cache/deb2appimage/build.json | tr '[:lower:]' '[:upper:]')"
 APPRUN_SET_LIBPATH="$(jq -r '.apprunconf[0].setlibpath' "$HOME"/.cache/deb2appimage/build.json | tr '[:lower:]' '[:upper:]')"
